@@ -17,3 +17,7 @@ ipch/
 *.VC.VC.opendb
 guetzli.vcxproj.user
 clguetzli/clguetzli.cu.ptx*
+
+# Eclipse profiles
+.cproject
+.project
