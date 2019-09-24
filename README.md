@@ -128,7 +128,7 @@ before encoding.
 ### On POSIX systems
 1. Follow the [Installation Guide for Linux ](https://developer.nvidia.com/compute/cuda/8.0/Prod2/docs/sidebar/CUDA_Installation_Guide_Linux-pdf) to setup [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit).
 2. Edit `premake5.lua`, add `$(CUDA_PATH)\include` to includedirs under workspace "guetzli", add `defines { "__USE_CUDA__" }` and `links { "cuda" }` under `filter "action:gmake"`. Then do `premake5 --os=linux gmake` to update the makefile.
-3. Edit `clguetzli/clguetzli.cl` and add `#define __USE_CUDA__ at first line.
+3. Edit `clguetzli/clguetzli.cl` and add `#define __USE_CUDA__` at first line.
 4. Run `make` and wait the binary to be created in `bin/Release/guetzli`.
 5. Run `./compile.sh 64` or `./compile.sh 32` to build the 64 or 32 bits [ptx](http://docs.nvidia.com/cuda/parallel-thread-execution) file, and the ptx file will be copied to `bin/Release/clguetzli`.
 
@@ -148,7 +148,7 @@ before encoding.
 ### On POSIX systems
 1. Follow the [Installation Guide for Linux ](https://software.intel.com/en-us/articles/sdk-for-opencl-gsg) to setup [Intel OpenCL SDK](https://software.intel.com/en-us/intel-opencl).
 2. Edit `premake5.lua`, add `$(OPENCL_SDK_PATH)\include` to includedirs under workspace "guetzli", add `defines { "__USE_OPENCL__" }` and `links { "**" }` under `filter "action:gmake"`. Then execute `premake5 --os=linux gmake` to update the makefile.
-3. Edit `clguetzli/clguetzli.cl` and add `#define __USE_OPENCL__ at first line.
+3. Edit `clguetzli/clguetzli.cl` and add `#define __USE_OPENCL__` at first line.
 4. Run `make` and wait the binary to be created in `bin/Release/guetzli`.
 5. Copy `clguetzli/clguetzli.cl` to `bin/Release/clguetzli` before running.
 
