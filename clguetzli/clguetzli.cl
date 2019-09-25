@@ -6,6 +6,10 @@
 *         chriskzhou@tencent.com
 *         stephendeng@tencent.com
 */
+#if !defined(__USE_CUDA__)
+#define __USE_CUDA__
+#endif
+
 #if defined(__USE_OPENCL__) || defined(__USE_CUDA__)
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 

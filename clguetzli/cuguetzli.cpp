@@ -12,6 +12,8 @@
 
 #ifdef __USE_CUDA__
 
+#include <math.h>
+
 #ifdef __USE_DOUBLE_AS_FLOAT__
 #define double float
 #endif
