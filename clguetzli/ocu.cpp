@@ -40,10 +40,10 @@ ocu_args_d_t& getOcu(void)
 
     char* ptx = nullptr;
     size_t src_size = 0;
-if (sizeof(void*) == 8)
-    ReadSourceFromFile("clguetzli/clguetzli.cu.ptx64", &ptx, &src_size);
-else
-    ReadSourceFromFile("clguetzli/clguetzli.cu.ptx32", &ptx, &src_size);
+    if (sizeof(void*) == 8)
+        ReadSourceFromFile("clguetzli/clguetzli.cu.ptx64", &ptx, &src_size);
+    else
+        ReadSourceFromFile("clguetzli/clguetzli.cu.ptx32", &ptx, &src_size);
 
     CUmodule mod;
     CUjit_option jit_options[2];
@@ -73,13 +73,13 @@ else
     cuModuleGetFunction(&ocu.kernel[KERNEL_UPSAMPLESQUAREROOT], mod, "clUpsampleSquareRootEx");
     cuModuleGetFunction(&ocu.kernel[KERNEL_REMOVEBORDER], mod, "clRemoveBorderEx");
     cuModuleGetFunction(&ocu.kernel[KERNEL_ADDBORDER], mod, "clAddBorderEx");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_COMPUTEBLOCKZEROINGORDER], mod, "clComputeBlockZeroingOrderEx");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_COPYFROMJPEGCOMPONENT], mod, "clCopyFromJpegComponentEx");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_APPLYGLOBALQUANTIZATION], mod, "clApplyGlobalQuantizationEx");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_COMPONENTSTOPIXELS], mod, "clComponentsToPixels");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_COMPONENTSTOPIXELS_EX1], mod, "clComponentsToPixelsEx1");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_COMPONENTSTOPIXELS_EX2], mod, "clComponentsToPixelsEx2");
-	cuModuleGetFunction(&ocu.kernel[KERNEL_COLORTRANSFORMYCBCRTORGB], mod, "clColorTransformYCbCrToRGB");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_COMPUTEBLOCKZEROINGORDER], mod, "clComputeBlockZeroingOrderEx");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_COPYFROMJPEGCOMPONENT], mod, "clCopyFromJpegComponentEx");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_APPLYGLOBALQUANTIZATION], mod, "clApplyGlobalQuantizationEx");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_COMPONENTSTOPIXELS], mod, "clComponentsToPixels");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_COMPONENTSTOPIXELS_EX1], mod, "clComponentsToPixelsEx1");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_COMPONENTSTOPIXELS_EX2], mod, "clComponentsToPixelsEx2");
+    cuModuleGetFunction(&ocu.kernel[KERNEL_COLORTRANSFORMYCBCRTORGB], mod, "clColorTransformYCbCrToRGB");
 
     cuCtxSetCacheConfig(CU_FUNC_CACHE_PREFER_SHARED);
     cuCtxSetSharedMemConfig(CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE);
