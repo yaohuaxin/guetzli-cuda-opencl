@@ -256,8 +256,7 @@ void cuConvolutionEx(
     LOG_CU_RESULT(err);
 }
 
-
-void cuConvolutionXEx(
+void cuConvolutionXExAsync(
     cu_mem result/*out*/,
     const cu_mem inp, size_t xsize, size_t ysize,
     const cu_mem multipliers, size_t len,
@@ -277,11 +276,22 @@ void cuConvolutionXEx(
         0,
         ocu.commandQueue, (void**)args, NULL);
     LOG_CU_RESULT(err);
-    err = cuFinish(ocu.commandQueue);
+}
+
+void cuConvolutionXEx(
+    cu_mem result/*out*/,
+    const cu_mem inp, size_t xsize, size_t ysize,
+    const cu_mem multipliers, size_t len,
+    int xstep, int offset, float border_ratio)
+{
+	cuConvolutionXExAsync(result, inp, xsize, ysize, multipliers, len, xstep, offset, border_ratio);
+
+	ocu_args_d_t &ocu = getOcu();
+	CUresult err = cuFinish(ocu.commandQueue);
     LOG_CU_RESULT(err);
 }
 
-void cuConvolutionYEx(
+void cuConvolutionYExAsync(
     cu_mem result/*out*/,
     const cu_mem inp, size_t xsize, size_t ysize,
     const cu_mem multipliers, size_t len,
@@ -302,11 +312,22 @@ void cuConvolutionYEx(
         0,
         ocu.commandQueue, (void**)args, NULL);
     LOG_CU_RESULT(err);
-    err = cuFinish(ocu.commandQueue);
+}
+
+void cuConvolutionYEx(
+    cu_mem result/*out*/,
+    const cu_mem inp, size_t xsize, size_t ysize,
+    const cu_mem multipliers, size_t len,
+    int xstep, int offset, float border_ratio)
+{
+	cuConvolutionYExAsync(result, inp, xsize, ysize, multipliers, len, xstep, offset, border_ratio);
+
+	ocu_args_d_t &ocu = getOcu();
+	CUresult err = cuFinish(ocu.commandQueue);
     LOG_CU_RESULT(err);
 }
 
-void cuSquareSampleEx(
+void cuSquareSampleExAsync(
     cu_mem result/*out*/,
     const cu_mem image, size_t xsize, size_t ysize,
     size_t xstep, size_t ystep)
@@ -324,7 +345,17 @@ void cuSquareSampleEx(
         0,
         ocu.commandQueue, (void**)args, NULL);
     LOG_CU_RESULT(err);
-    err = cuFinish(ocu.commandQueue);
+}
+
+void cuSquareSampleEx(
+    cu_mem result/*out*/,
+    const cu_mem image, size_t xsize, size_t ysize,
+    size_t xstep, size_t ystep)
+{
+	cuSquareSampleExAsync(result, image, xsize, ysize, xstep, ystep);
+
+	ocu_args_d_t &ocu = getOcu();
+	CUresult err = cuFinish(ocu.commandQueue);
     LOG_CU_RESULT(err);
 }
 
@@ -353,6 +384,13 @@ void cuBlurEx(cu_mem image/*out, opt*/, const size_t xsize, const size_t ysize,
         cuConvolutionXEx(m, image, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
         cuConvolutionYEx(result ? result : image, m, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
         cuSquareSampleEx(result ? result : image, result ? result : image, xsize, ysize, xstep, xstep);
+
+        //cuConvolutionXExAsync(m, image, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
+        //cuConvolutionYExAsync(result ? result : image, m, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
+        //cuSquareSampleExAsync(result ? result : image, result ? result : image, xsize, ysize, xstep, xstep);
+        //CUresult err = cuFinish(ocu.commandQueue);
+        //LOG_CU_RESULT(err);
+
         ocu.releaseMem(m);
     }
     else
@@ -360,6 +398,12 @@ void cuBlurEx(cu_mem image/*out, opt*/, const size_t xsize, const size_t ysize,
         cu_mem m = ocu.allocMem(sizeof(float) * xsize * ysize);
         cuConvolutionXEx(m, image, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
         cuConvolutionYEx(result ? result : image, m, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
+
+        //cuConvolutionXExAsync(m, image, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
+        //cuConvolutionYExAsync(result ? result : image, m, xsize, ysize, mem_expn, expn_size, xstep, diff, border_ratio);
+        //CUresult err = cuFinish(ocu.commandQueue);
+        //LOG_CU_RESULT(err);
+
         ocu.releaseMem(m);
     }
 

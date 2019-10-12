@@ -53,7 +53,19 @@ void cuDiffmapOpsinDynamicsImageEx(
     const size_t xsize, const size_t ysize,
     const size_t step);
 
+void cuConvolutionXExAsync(
+    cu_mem result/*out*/,
+    const cu_mem inp, size_t xsize, size_t ysize,
+    const cu_mem multipliers, size_t len,
+    int xstep, int offset, float border_ratio);
+
 void cuConvolutionXEx(
+    cu_mem result/*out*/,
+    const cu_mem inp, size_t xsize, size_t ysize,
+    const cu_mem multipliers, size_t len,
+    int xstep, int offset, float border_ratio);
+
+void cuConvolutionYExAsync(
     cu_mem result/*out*/,
     const cu_mem inp, size_t xsize, size_t ysize,
     const cu_mem multipliers, size_t len,
@@ -64,6 +76,11 @@ void cuConvolutionYEx(
     const cu_mem inp, size_t xsize, size_t ysize,
     const cu_mem multipliers, size_t len,
     int xstep, int offset, float border_ratio);
+
+void cuSquareSampleExAsync(
+    cu_mem result/*out*/,
+    const cu_mem image, size_t xsize, size_t ysize,
+    size_t xstep, size_t ystep);
 
 void cuSquareSampleEx(
     cu_mem result/*out*/,
