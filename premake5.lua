@@ -36,16 +36,16 @@ workspace "guetzli"
       }
     removefiles "guetzli/guetzli.cc"
     filter "action:gmake"
-      linkoptions { "`pkg-config --static --libs libpng`" }
-      buildoptions { "`pkg-config --static --cflags libpng`" }
+      linkoptions { "-fsigned-char `pkg-config --static --libs libpng`" }
+      buildoptions { "-fsigned-char `pkg-config --static --cflags libpng`" }
 
   project "guetzli"
     kind "ConsoleApp"
     filter "action:gmake"
 	  --defines { "__USE_OPENCL__", "__USE_CUDA__", "__SUPPORT_FULL_JPEG__" }
 	  defines { "__USE_CUDA__" }
-      linkoptions { "`pkg-config --libs libpng`" }
-      buildoptions { "`pkg-config --cflags libpng`" }
+      linkoptions { "-fsigned-char `pkg-config --libs libpng`" }
+      buildoptions { "-fsigned-char `pkg-config --cflags libpng`" }
       --links { "OpenCL", "cuda", "profiler", "unwind", "jpeg" }
       links { "cuda" }
     filter "action:vs*"
