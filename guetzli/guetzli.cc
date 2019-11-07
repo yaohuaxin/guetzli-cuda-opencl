@@ -234,12 +234,12 @@ void Usage() {
       "  --memlimit M - Memory limit in MB. Guetzli will fail if unable to stay under\n"
       "                 the limit. Default limit is %d MB.\n"
 #ifdef __USE_OPENCL__
-	  "  --opencl     - Use OpenCL\n"
+      "  --opencl     - Use OpenCL\n"
       "  --checkcl    - Check OpenCL result\n"
 #endif
-	  "  --c          - Use c opt version\n"
+	    "  --c          - Use c opt version\n"
 #ifdef __USE_CUDA__
-	  "  --cuda       - Use CUDA\n"	 
+      "  --cuda       - Use CUDA\n"
       "  --checkcuda  - Check CUDA result\n"
 #endif
       "  --nomemlimit - Do not limit memory usage.\n", kDefaultJPEGQuality, kDefaultMemlimitMB);
@@ -342,6 +342,54 @@ int ProcessAndSaveImage(std::string input_image_path,
   return 0;
 }
 
+int ProcessAndSaveImageFolder(std::string input_image_Folder,
+                              std::string output_image_Folder,
+                              int verbose, int quality, int memlimit_mb){
+  struct dirent *entry = nullptr;
+  DIR *dp = nullptr;
+  std::string input_image_path = "";
+  std::string output_image_path = "";
+
+  dp = opendir(input_image_Folder.c_str());
+  if (dp != nullptr) {
+    while ((entry = readdir(dp))) {
+      // printf ("%s is ", entry->d_name);
+      if ((entry->d_type|DT_REG) && EndsWith(entry->d_name,".jpg")) {
+        input_image_path = input_image_Folder;
+        output_image_path = output_image_Folder;
+
+        if(EndsWith(input_image_path, "/")){
+          input_image_path.append(entry->d_name);
+        } else {
+          input_image_path.append("/").append(entry->d_name);
+        }
+        // std::cout << input_image_path << std::endl;
+
+        if(EndsWith(output_image_path, "/")){
+          output_image_path.append(entry->d_name);
+        } else {
+          output_image_path.append("/").append(entry->d_name);
+        }
+        // std::cout << output_image_path << std::endl;
+
+        // Not stop if encount problem when process a single image
+        ProcessAndSaveImage(input_image_path, output_image_path, verbose, quality, memlimit_mb);
+
+      } else {
+        std::string file_name = entry->d_name;
+        if (file_name.compare(".")!=0 && file_name.compare("..")!=0) {
+          std::cout << "Found a Non-JPEG file: " << file_name << std::endl;
+        }
+      }
+    }
+
+    return closedir(dp);
+  } else {
+    fprintf(stderr, "Can not open folder.\n");
+    return 1;
+  }
+}
+
 int main(int argc, char** argv) {
 #ifdef __USE_GPERFTOOLS__
 	ProfilerStart("guetzli.prof");
@@ -351,6 +399,7 @@ int main(int argc, char** argv) {
   int verbose = 0;
   int quality = kDefaultJPEGQuality;
   int memlimit_mb = kDefaultMemlimitMB;
+  bool run_forever = false;
 
   int opt_idx = 1;
   for(;opt_idx < argc;opt_idx++) {
@@ -391,6 +440,9 @@ int main(int argc, char** argv) {
         g_mathMode = MODE_CHECKCUDA;
     }
 #endif
+    else if (!strcmp(argv[opt_idx], "--runforever")) {
+      run_forever = true;
+    }
 	else if (!strcmp(argv[opt_idx], "--")) {
       opt_idx++;
       break;
@@ -408,44 +460,24 @@ int main(int argc, char** argv) {
   std::string out_file_or_folder = argv[opt_idx + 1];
 
   if (IsDirectory(in_file_or_folder) && IsDirectory(out_file_or_folder)) {
-    struct dirent *entry = nullptr;
-    DIR *dp = nullptr;
-    std::string input_image_path = "";
-    std::string output_image_path = "";
-
-    dp = opendir(in_file_or_folder.c_str());
-    if (dp != nullptr) {
-      while ((entry = readdir(dp))) {
-        // printf ("%s is ", entry->d_name);
-        if ((entry->d_type|DT_REG) && EndsWith(entry->d_name,".jpg")) {
-          input_image_path = in_file_or_folder;
-          output_image_path = out_file_or_folder;
-
-          if(EndsWith(input_image_path, "/")){
-            input_image_path.append(entry->d_name);
-          } else {
-            input_image_path.append("/").append(entry->d_name);
-          }
-
-          // std::cout << input_image_path << std::endl;
-
-          output_image_path.append(entry->d_name);
-          // std::cout << output_image_path << std::endl;
-
-          ProcessAndSaveImage(input_image_path, output_image_path, verbose, quality, memlimit_mb);
-
-        } else {
-          std::string file_name = entry->d_name;
-          if (file_name.compare(".")!=0 && file_name.compare("..")!=0) {
-            std::cout << "Found a Non-JPEG file: " << file_name << std::endl;
-          }
-        }
+    if (run_forever) {
+      int loop = 0;
+      while (true) {
+        std::cout << "Running loop: " << loop << std::endl;
+        ProcessAndSaveImageFolder(in_file_or_folder, out_file_or_folder, verbose, quality, memlimit_mb);
+        loop ++;
       }
+    } else {
+      ProcessAndSaveImageFolder(in_file_or_folder, out_file_or_folder, verbose, quality, memlimit_mb);
     }
   } else if (IsRegularFile(in_file_or_folder)) {
-    std::string input_image_path = in_file_or_folder;
-    std::string output_image_path = out_file_or_folder;
-    ProcessAndSaveImage(input_image_path, output_image_path, verbose, quality, memlimit_mb);
+    if (run_forever) {
+      while (true) {
+        ProcessAndSaveImage(in_file_or_folder, out_file_or_folder, verbose, quality, memlimit_mb);
+      }
+    } else {
+      ProcessAndSaveImage(in_file_or_folder, out_file_or_folder, verbose, quality, memlimit_mb);
+    }
   } else {
     std::cout << "Error" << std::endl;
   }
