@@ -21,3 +21,5 @@ clguetzli/clguetzli.cu.ptx*
 # Eclipse profiles
 .cproject
 .project
+.pydevproject
+.settings/
