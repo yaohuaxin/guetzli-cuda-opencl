@@ -5,8 +5,13 @@ from os import listdir
 from os.path import isfile, isdir, join, basename
 
 #sourceImageDirectory = "../../dataset/images/eligible_files"
-sourceImageDirectory = "../../dataset/images/tencentResults/guetzli_result"
-processedImageDirectory = "./output.HDD"
+#sourceImageDirectory = "../../dataset/images/tencentResults/guetzli_result"
+#sourceImageDirectory = "../../dataset/images/X86Results.byIBM/output.HDD"
+sourceImageDirectory = "../../dataset/images/IBMResults/4G_8P_MPS.forSource"
+
+#processedImageDirectory = "./output.HDD"
+processedImageDirectory = "../../dataset/images/IBMResults/4G_8P_MPS.forTarget"
+#processedImageDirectory = "../../dataset/images/X86Results.byIBM"
 
 def psnr(img1, img2):
     mse = numpy.mean( (img1 - img2) ** 2 )
