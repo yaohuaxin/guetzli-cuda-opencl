@@ -2,17 +2,30 @@
 # Configurations
 #
 NUMBER_OF_GPU=4
-PROCESS_NUMBER_ON_EACH_GPU=4
+PROCESS_NUMBER_ON_EACH_GPU=8
 
-CPUs=(0 0 8 8)
-GPUs=(0 1 2 3)
+CPU_ARCH=$(arch)
+
+if [ "$CPU_ARCH" == "ppc64le" ]; then
+    echo "Running on $CPU_ARCH"
+    CPUs=(0 0 8 8)
+    GPUs=(0 1 2 3)
+elif [ "$CPU_ARCH" == "x86_64" ]; then
+    echo "Running on $CPU_ARCH"
+    CPUs=(0 0 1 1)
+    GPUs=(0 1 2 3)
+else
+    echo "$CPU_ARCH not supported."
+    exit 1
+fi
 
 #CPUs=(0 0 0 0 8 8 8 8)
 #GPUs=(0 1 2 3 4 5 6 7)
 
-#image_input_path=../../dataset/images/eligible_files
+image_input_path=../../dataset/images/eligible_files
 #image_input_path=../../dataset/images/eligible_files_testing
-image_input_path=../../dataset/images/eligible_files_profile_80Images
+#image_input_path=../../dataset/images/eligible_files_profile_80Images
+#image_input_path=../../dataset/images/eligible_files_profile_8Images
 
 #output_folder_path=output.shm
 output_folder_path=output.HDD
