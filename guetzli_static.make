@@ -16,7 +16,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/libguetzli_static.a
   OBJDIR = obj/Release/guetzli_static
   DEFINES +=
-  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include
+  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I../../../../../toolsInstalled/libjpeg-turbo.tag1.5.3/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O3 -g -fsigned-char `pkg-config --static --cflags libpng`
@@ -24,7 +24,7 @@ ifeq ($(config),release)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -fsigned-char `pkg-config --static --libs libpng`
+  ALL_LDFLAGS += $(LDFLAGS) -L../../../../../toolsInstalled/libjpeg-turbo.tag1.5.3/lib -fsigned-char `pkg-config --static --libs libpng`
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -43,7 +43,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/libguetzli_static.a
   OBJDIR = obj/Debug/guetzli_static
   DEFINES +=
-  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include
+  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I../../../../../toolsInstalled/libjpeg-turbo.tag1.5.3/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -fsigned-char `pkg-config --static --cflags libpng`
@@ -51,7 +51,7 @@ ifeq ($(config),debug)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -fsigned-char `pkg-config --static --libs libpng`
+  ALL_LDFLAGS += $(LDFLAGS) -L../../../../../toolsInstalled/libjpeg-turbo.tag1.5.3/lib -fsigned-char `pkg-config --static --libs libpng`
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef

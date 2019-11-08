@@ -15,16 +15,16 @@ ifeq ($(config),release)
   TARGETDIR = bin/Release
   TARGET = $(TARGETDIR)/guetzli
   OBJDIR = obj/Release/guetzli
-  DEFINES += -D__USE_CUDA__
-  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include
+  DEFINES += -D__USE_CUDA__ -D__SUPPORT_FULL_JPEG__
+  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O3 -g -fsigned-char `pkg-config --cflags libpng`
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O3 -g -std=c++11 -fsigned-char `pkg-config --cflags libpng`
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -lcuda
+  LIBS += -lcuda -ljpeg -lturbojpeg
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -fsigned-char `pkg-config --libs libpng`
+  ALL_LDFLAGS += $(LDFLAGS) -L/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/lib -fsigned-char `pkg-config --libs libpng`
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -42,16 +42,16 @@ ifeq ($(config),debug)
   TARGETDIR = bin/Debug
   TARGET = $(TARGETDIR)/guetzli
   OBJDIR = obj/Debug/guetzli
-  DEFINES += -D__USE_CUDA__
-  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include
+  DEFINES += -D__USE_CUDA__ -D__SUPPORT_FULL_JPEG__
+  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -fsigned-char `pkg-config --cflags libpng`
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++11 -fsigned-char `pkg-config --cflags libpng`
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -lcuda
+  LIBS += -lcuda -ljpeg -lturbojpeg
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -fsigned-char `pkg-config --libs libpng`
+  ALL_LDFLAGS += $(LDFLAGS) -L/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/lib -fsigned-char `pkg-config --libs libpng`
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

@@ -2,8 +2,8 @@ workspace "guetzli"
   configurations { "Release", "Debug" }
   language "C++"
   flags { "C++11" }
-  includedirs { ".", "third_party/butteraugli", "clguetzli", "/usr/local/cuda/include" }
-  libdirs {}
+  includedirs { ".", "third_party/butteraugli", "clguetzli", "/usr/local/cuda/include", "/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/include" }
+  libdirs { "/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/lib" }
 
   filter "action:vs*"
     platforms { "x86_64", "x86" }
@@ -43,11 +43,11 @@ workspace "guetzli"
     kind "ConsoleApp"
     filter "action:gmake"
 	  --defines { "__USE_OPENCL__", "__USE_CUDA__", "__SUPPORT_FULL_JPEG__" }
-	  defines { "__USE_CUDA__" }
+	  defines { "__USE_CUDA__", "__SUPPORT_FULL_JPEG__" }
       linkoptions { "-fsigned-char `pkg-config --libs libpng`" }
       buildoptions { "-fsigned-char `pkg-config --cflags libpng`" }
       --links { "OpenCL", "cuda", "profiler", "unwind", "jpeg" }
-      links { "cuda" }
+      links { "cuda", "jpeg", "turbojpeg" }
     filter "action:vs*"
       links { "shlwapi" }
     filter {}
