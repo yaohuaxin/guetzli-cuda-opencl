@@ -16,7 +16,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/guetzli
   OBJDIR = obj/Release/guetzli
   DEFINES += -D__USE_CUDA__ -D__SUPPORT_FULL_JPEG__
-  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/include
+  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I/opt/libjpeg-turbo/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O3 -g -fsigned-char `pkg-config --cflags libpng`
@@ -24,7 +24,7 @@ ifeq ($(config),release)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lcuda -ljpeg -lturbojpeg
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/lib -fsigned-char `pkg-config --libs libpng`
+  ALL_LDFLAGS += $(LDFLAGS) -L/opt/libjpeg-turbo/lib64 -fsigned-char `pkg-config --libs libpng`
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -43,7 +43,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/guetzli
   OBJDIR = obj/Debug/guetzli
   DEFINES += -D__USE_CUDA__ -D__SUPPORT_FULL_JPEG__
-  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/include
+  INCLUDES += -I. -Ithird_party/butteraugli -Iclguetzli -I/usr/local/cuda/include -I/opt/libjpeg-turbo/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -fsigned-char `pkg-config --cflags libpng`
@@ -51,7 +51,7 @@ ifeq ($(config),debug)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lcuda -ljpeg -lturbojpeg
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/home/shhxyao/huaxin/toolsInstalled/libjpeg-turbo.tag1.5.3/lib -fsigned-char `pkg-config --libs libpng`
+  ALL_LDFLAGS += $(LDFLAGS) -L/opt/libjpeg-turbo/lib64 -fsigned-char `pkg-config --libs libpng`
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
