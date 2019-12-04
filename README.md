@@ -211,6 +211,6 @@ If you have any question about CUDA/OpenCL support, please contact strongtu@tenc
 ``` bash
 # After build libguetzli_static.a
 cd bin/Release or cd bin/Debug
-g++ -O3 -g -std=c++11 -fsigned-char -D__USE_CUDA__ -D__SUPPORT_FULL_JPEG__ -I../../ -I../../third_party/butteraugli -I../../clguetzli -I/usr/local/cuda/include -I/opt/libjpeg-turbo/include -L/opt/libjpeg-turbo/lib64/ ../../guetzli/guetzli.cc libguetzli_static.a -ljpeg -lturbojpeg -lcuda -lpng -o guetzli_from_guetzli_static
+g++ -O3 -g -std=c++11 -fsigned-char -D__USE_CUDA__ -D__SUPPORT_FULL_JPEG__ -I../../ -I../../third_party/butteraugli -I../../clguetzli -I/usr/local/cuda/include -I/opt/libjpeg-turbo/include -L/opt/libjpeg-turbo/lib64/ ../../guetzli/guetzli.cc libguetzli_static.a -ljpeg -lturbojpeg -lcuda $(pkg-config --libs libpng) -o guetzli_from_guetzli_static
 ```
 
